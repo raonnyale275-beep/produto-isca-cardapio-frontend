@@ -142,69 +142,6 @@
     </div>
   </section>
 
-  <!-- COMPARAÇÃO -->
-  <section class="px-5 pb-20 max-w-3xl mx-auto">
-    <h2 class="text-xl md:text-3xl font-black text-center mb-2">Cardápio que vende<br/>x cardápio que não vende</h2>
-    <p class="text-sm text-center mb-8" style="color:#666">A diferença está nos detalhes — e ela aparece direto no faturamento.</p>
-
-    <div class="grid grid-cols-2 gap-3 md:gap-5">
-
-      <!-- NÃO VENDE -->
-      <div class="rounded-2xl overflow-hidden" style="border:1px solid #2d1515">
-        <div class="px-4 py-2 text-center text-xs font-bold uppercase tracking-widest" style="background:#1a0808; color:#f87171">Não vende</div>
-        <!-- Foto -->
-        <div class="flex items-center justify-center text-xs" style="background:#111; height:100px; color:#444; border-bottom:1px solid #1a1a1a">
-          sem foto
-        </div>
-        <div class="p-4">
-          <p class="font-bold text-sm mb-1">X-Burguer</p>
-          <p class="text-xs mb-3" style="color:#444">—</p>
-          <div class="flex items-center justify-between">
-            <span class="text-sm font-bold">R$ 25,00</span>
-          </div>
-        </div>
-        <!-- Problemas -->
-        <div class="px-4 pb-4 space-y-1">
-          <p class="text-xs" style="color:#f87171">Nome genérico</p>
-          <p class="text-xs" style="color:#f87171">Sem descrição</p>
-          <p class="text-xs" style="color:#f87171">Sem foto</p>
-          <p class="text-xs" style="color:#f87171">Preço sem contexto</p>
-        </div>
-      </div>
-
-      <!-- VENDE -->
-      <div class="rounded-2xl overflow-hidden" style="border:1px solid #1a4a25">
-        <div class="px-4 py-2 text-center text-xs font-bold uppercase tracking-widest" style="background:#081a0e; color:#34d399">Vende</div>
-        <!-- Foto -->
-        <div class="flex items-center justify-center text-xs font-medium" style="background:#0d1f12; height:100px; color:var(--mint); border-bottom:1px solid #1a2e1d">
-          foto profissional
-        </div>
-        <div class="p-4">
-          <p class="font-bold text-sm mb-1">Smash Burguer Artesanal</p>
-          <p class="text-xs mb-3" style="color:#888">Pão brioche, 180g angus, cheddar derretido e molho da casa</p>
-          <div class="flex items-center justify-between">
-            <span class="text-sm font-bold" style="color:var(--mint)">R$ 29,90</span>
-            <span class="text-xs px-2 py-0.5 rounded-full font-semibold" style="background:#0d1f12; color:var(--mint)">+ pedido</span>
-          </div>
-        </div>
-        <!-- Qualidades -->
-        <div class="px-4 pb-4 space-y-1">
-          <p class="text-xs" style="color:#34d399">Nome com identidade</p>
-          <p class="text-xs" style="color:#34d399">Descrição apetitosa</p>
-          <p class="text-xs" style="color:#34d399">Foto que converte</p>
-          <p class="text-xs" style="color:#34d399">Preço com ancoragem</p>
-        </div>
-      </div>
-
-    </div>
-
-    <div class="mt-8 text-center">
-      <p class="text-sm mb-5" style="color:#666">Qual desses dois você compraria sem pensar duas vezes?</p>
-      <a href="#analisar" class="btn-mint inline-block px-8 py-4 rounded-xl text-sm font-bold">
-        Descubra como está o seu cardápio
-      </a>
-    </div>
-  </section>
 
   <!-- FOOTER -->
   <footer class="px-6 py-6 text-center" style="border-top: 1px solid #111">
@@ -276,6 +213,21 @@
 
     // Duplica todos os cards no final para criar loop infinito
     origCards.forEach(card => carousel.appendChild(card.cloneNode(true)));
+
+    // Sempre que a seção entrar na tela, volta para o card 0 (capa obrigatória)
+    const carouselSection = carousel.closest('section');
+    if (carouselSection) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            current = 0;
+            scrollToCard(0, true);
+            updateDots(0);
+          }
+        });
+      }, { threshold: 0.3 });
+      observer.observe(carouselSection);
+    }
 
     let current = 0;
     let isUserScrolling = false;
