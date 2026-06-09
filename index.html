@@ -110,23 +110,23 @@
     </div>
 
     <!-- Wrapper -->
-    <div style="position:relative; overflow:hidden">
+    <div style="position:relative">
       <!-- Barra de progresso -->
-      <div id="carousel-progress" style="position:absolute;top:0;left:0;height:3px;background:var(--mint);width:0;z-index:10;pointer-events:none"></div>
+      <div id="carousel-progress" style="position:absolute;top:0;left:0;height:3px;background:var(--mint);width:0;z-index:10;pointer-events:none;border-radius:0 2px 2px 0"></div>
 
-      <!-- Track (transform-based) -->
-      <div id="carousel-track" style="display:flex;will-change:transform">
-        <div style="min-width:100%;padding:0 16px;box-sizing:border-box"><img src="card6.jpg" class="w-full h-auto block" style="border-radius:16px"/></div>
-        <div style="min-width:100%;padding:0 16px;box-sizing:border-box"><img src="card1.jpg" class="w-full h-auto block" style="border-radius:16px"/></div>
-        <div style="min-width:100%;padding:0 16px;box-sizing:border-box"><img src="card2.jpg" class="w-full h-auto block" style="border-radius:16px"/></div>
-        <div style="min-width:100%;padding:0 16px;box-sizing:border-box"><img src="card3.jpg" class="w-full h-auto block" style="border-radius:16px"/></div>
-        <div style="min-width:100%;padding:0 16px;box-sizing:border-box"><img src="card4.jpg" class="w-full h-auto block" style="border-radius:16px"/></div>
-        <div style="min-width:100%;padding:0 16px;box-sizing:border-box"><img src="card5.jpg" class="w-full h-auto block" style="border-radius:16px"/></div>
+      <!-- Scroll snap, 1 card por vez -->
+      <div id="carousel" class="flex overflow-x-auto" style="scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;scroll-behavior:smooth">
+        <div style="min-width:100%;padding:0 16px;box-sizing:border-box;scroll-snap-align:start"><img src="card6.jpg" class="w-full h-auto block" style="border-radius:16px"/></div>
+        <div style="min-width:100%;padding:0 16px;box-sizing:border-box;scroll-snap-align:start"><img src="card1.jpg" class="w-full h-auto block" style="border-radius:16px"/></div>
+        <div style="min-width:100%;padding:0 16px;box-sizing:border-box;scroll-snap-align:start"><img src="card2.jpg" class="w-full h-auto block" style="border-radius:16px"/></div>
+        <div style="min-width:100%;padding:0 16px;box-sizing:border-box;scroll-snap-align:start"><img src="card3.jpg" class="w-full h-auto block" style="border-radius:16px"/></div>
+        <div style="min-width:100%;padding:0 16px;box-sizing:border-box;scroll-snap-align:start"><img src="card4.jpg" class="w-full h-auto block" style="border-radius:16px"/></div>
+        <div style="min-width:100%;padding:0 16px;box-sizing:border-box;scroll-snap-align:start"><img src="card5.jpg" class="w-full h-auto block" style="border-radius:16px"/></div>
       </div>
 
       <!-- Setas -->
-      <button onclick="carouselPrev()" aria-label="anterior" style="position:absolute;left:8px;top:50%;transform:translateY(-50%);background:rgba(0,0,0,0.55);border:1px solid #444;color:#fff;width:40px;height:40px;border-radius:50%;font-size:18px;cursor:pointer;z-index:10;display:flex;align-items:center;justify-content:center;padding:0">&#8592;</button>
-      <button onclick="carouselNext()" aria-label="próximo" style="position:absolute;right:8px;top:50%;transform:translateY(-50%);background:rgba(0,0,0,0.55);border:1px solid #444;color:#fff;width:40px;height:40px;border-radius:50%;font-size:18px;cursor:pointer;z-index:10;display:flex;align-items:center;justify-content:center;padding:0">&#8594;</button>
+      <button onclick="carouselPrev()" aria-label="anterior" style="position:absolute;left:20px;top:50%;transform:translateY(-50%);background:rgba(0,0,0,0.55);border:1px solid #444;color:#fff;width:40px;height:40px;border-radius:50%;font-size:18px;cursor:pointer;z-index:10;display:flex;align-items:center;justify-content:center;padding:0">&#8592;</button>
+      <button onclick="carouselNext()" aria-label="próximo" style="position:absolute;right:20px;top:50%;transform:translateY(-50%);background:rgba(0,0,0,0.55);border:1px solid #444;color:#fff;width:40px;height:40px;border-radius:50%;font-size:18px;cursor:pointer;z-index:10;display:flex;align-items:center;justify-content:center;padding:0">&#8594;</button>
     </div>
 
     <!-- Dots -->
@@ -203,16 +203,16 @@
 
 
 <script>
-  // Carrossel infinito com setas e barra de progresso
-  const track = document.getElementById('carousel-track');
+  // Carrossel infinito — scroll snap + setas + barra de progresso
+  const carousel = document.getElementById('carousel');
   const progressBar = document.getElementById('carousel-progress');
-  if (track) {
+  if (carousel) {
     const INTERVAL = 4000;
-    const origSlides = [...track.children];
+    const origSlides = [...carousel.children];
     const totalOriginal = origSlides.length;
 
     // Clona slides ao final para loop infinito
-    origSlides.forEach(s => track.appendChild(s.cloneNode(true)));
+    origSlides.forEach(s => carousel.appendChild(s.cloneNode(true)));
 
     let current = 0;
     let jumping = false;
@@ -222,9 +222,10 @@
     let progressRAF;
     let progressStart;
 
-    function setPos(idx, animate) {
-      track.style.transition = animate ? 'transform 0.45s cubic-bezier(.4,0,.2,1)' : 'none';
-      track.style.transform = `translateX(-${idx * 100}%)`;
+    function scrollTo(idx, instant) {
+      const slides = carousel.children;
+      if (!slides[idx]) return;
+      carousel.scrollTo({ left: slides[idx].offsetLeft, behavior: instant ? 'instant' : 'smooth' });
     }
 
     function updateDots(realIdx) {
@@ -236,7 +237,6 @@
 
     function startProgress() {
       cancelAnimationFrame(progressRAF);
-      progressBar.style.transition = 'none';
       progressBar.style.width = '0%';
       progressStart = performance.now();
       function tick(now) {
@@ -247,9 +247,9 @@
       progressRAF = requestAnimationFrame(tick);
     }
 
-    function goTo(idx, animate) {
+    function goTo(idx, instant) {
       current = idx;
-      setPos(current, animate !== false);
+      scrollTo(current, instant);
       updateDots(current % totalOriginal);
       startProgress();
       scheduleAutoplay();
@@ -263,18 +263,18 @@
         jumping = true;
         setTimeout(() => {
           current = nextIdx % totalOriginal;
-          setPos(current, false);
+          scrollTo(current, true);
           jumping = false;
-        }, 500);
+        }, 550);
       }
     }
 
     function prev() {
       if (jumping) return;
       if (current <= 0) {
-        setPos(totalOriginal, false);
+        scrollTo(totalOriginal, true);
         current = totalOriginal;
-        requestAnimationFrame(() => goTo(current - 1));
+        setTimeout(() => goTo(current - 1), 20);
       } else {
         goTo(current - 1);
       }
@@ -282,42 +282,38 @@
 
     function scheduleAutoplay() {
       clearTimeout(autoTimer);
-      autoTimer = setTimeout(() => {
-        if (!paused && !jumping) next();
-      }, INTERVAL);
+      autoTimer = setTimeout(() => { if (!paused && !jumping) next(); }, INTERVAL);
     }
 
     window.carouselNext = () => {
-      paused = true;
-      clearTimeout(pauseTimeout);
+      paused = true; clearTimeout(pauseTimeout);
       next();
       pauseTimeout = setTimeout(() => { paused = false; }, 6000);
     };
 
     window.carouselPrev = () => {
-      paused = true;
-      clearTimeout(pauseTimeout);
+      paused = true; clearTimeout(pauseTimeout);
       prev();
       pauseTimeout = setTimeout(() => { paused = false; }, 6000);
     };
 
-    // Swipe touch
+    // Touch swipe
     let tx = 0;
-    track.addEventListener('touchstart', e => { tx = e.touches[0].clientX; paused = true; clearTimeout(pauseTimeout); });
-    track.addEventListener('touchend', e => {
+    carousel.addEventListener('touchstart', e => { tx = e.touches[0].clientX; paused = true; clearTimeout(pauseTimeout); });
+    carousel.addEventListener('touchend', e => {
       const diff = tx - e.changedTouches[0].clientX;
       if (Math.abs(diff) > 40) diff > 0 ? next() : prev();
       pauseTimeout = setTimeout(() => { paused = false; }, 6000);
     });
 
-    // Sempre inicia no card 0 quando a seção fica visível
+    // Reset para card 0 ao entrar na tela
     const section = document.getElementById('carousel-section');
     if (section) {
       new IntersectionObserver((entries) => {
         if (entries[0].isIntersecting) {
           jumping = false;
           current = 0;
-          setPos(0, false);
+          scrollTo(0, true);
           updateDots(0);
           startProgress();
           scheduleAutoplay();
