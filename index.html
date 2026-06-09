@@ -15,9 +15,9 @@
     .card-dark { background: #111; border: 1px solid #222; border-radius: 16px; }
     @keyframes fadeUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
     .fade-up { animation: fadeUp 0.5s ease forwards; }
-    @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-    .marquee-track { display: flex; width: max-content; animation: marquee 20s linear infinite; }
-    .logos-track { width: max-content; animation: marquee 22s linear infinite; }
+    @keyframes marquee { from { transform: translate3d(0,0,0); } to { transform: translate3d(-50%,0,0); } }
+    .marquee-track { display: flex; width: max-content; animation: marquee 20s linear infinite; will-change: transform; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+    .logos-track { display: flex; width: max-content; animation: marquee 22s linear infinite; will-change: transform; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
     .marquee-track:hover { animation-play-state: paused; }
     @keyframes spin { to { transform: rotate(360deg); } }
     .spinner { animation: spin 1s linear infinite; }
