@@ -103,35 +103,33 @@
   </section>
 
   <!-- CARROSSEL EDUCATIVO -->
-  <section class="pb-16">
+  <section class="pb-16" id="carousel-section">
     <div class="px-5 mb-6 max-w-3xl mx-auto">
       <p class="text-sm font-semibold uppercase tracking-widest mb-2" style="color:var(--mint)">Engenharia de cardápio</p>
       <h2 class="text-2xl md:text-3xl font-black">O que separa um cardápio comum<br/>de um cardápio que vende.</h2>
     </div>
 
-    <!-- Scroll horizontal com snap -->
-    <div id="carousel" class="flex gap-3 overflow-x-auto pb-4 px-5" style="scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch; scrollbar-width:none">
-      <div class="flex-none rounded-2xl overflow-hidden" style="width:78vw; max-width:340px; scroll-snap-align:start">
-        <img src="card6.jpg" class="w-full h-auto block" style="border-radius:16px" />
+    <!-- Wrapper -->
+    <div style="position:relative; overflow:hidden">
+      <!-- Barra de progresso -->
+      <div id="carousel-progress" style="position:absolute;top:0;left:0;height:3px;background:var(--mint);width:0;z-index:10;pointer-events:none"></div>
+
+      <!-- Track (transform-based) -->
+      <div id="carousel-track" style="display:flex;will-change:transform">
+        <div style="min-width:100%;padding:0 16px;box-sizing:border-box"><img src="card6.jpg" class="w-full h-auto block" style="border-radius:16px"/></div>
+        <div style="min-width:100%;padding:0 16px;box-sizing:border-box"><img src="card1.jpg" class="w-full h-auto block" style="border-radius:16px"/></div>
+        <div style="min-width:100%;padding:0 16px;box-sizing:border-box"><img src="card2.jpg" class="w-full h-auto block" style="border-radius:16px"/></div>
+        <div style="min-width:100%;padding:0 16px;box-sizing:border-box"><img src="card3.jpg" class="w-full h-auto block" style="border-radius:16px"/></div>
+        <div style="min-width:100%;padding:0 16px;box-sizing:border-box"><img src="card4.jpg" class="w-full h-auto block" style="border-radius:16px"/></div>
+        <div style="min-width:100%;padding:0 16px;box-sizing:border-box"><img src="card5.jpg" class="w-full h-auto block" style="border-radius:16px"/></div>
       </div>
-      <div class="flex-none rounded-2xl overflow-hidden" style="width:78vw; max-width:340px; scroll-snap-align:start">
-        <img src="card1.jpg" class="w-full h-auto block" style="border-radius:16px" />
-      </div>
-      <div class="flex-none rounded-2xl overflow-hidden" style="width:78vw; max-width:340px; scroll-snap-align:start">
-        <img src="card2.jpg" class="w-full h-auto block" style="border-radius:16px" />
-      </div>
-      <div class="flex-none rounded-2xl overflow-hidden" style="width:78vw; max-width:340px; scroll-snap-align:start">
-        <img src="card3.jpg" class="w-full h-auto block" style="border-radius:16px" />
-      </div>
-      <div class="flex-none rounded-2xl overflow-hidden" style="width:78vw; max-width:340px; scroll-snap-align:start">
-        <img src="card4.jpg" class="w-full h-auto block" style="border-radius:16px" />
-      </div>
-      <div class="flex-none rounded-2xl overflow-hidden" style="width:78vw; max-width:340px; scroll-snap-align:start">
-        <img src="card5.jpg" class="w-full h-auto block" style="border-radius:16px" />
-      </div>
+
+      <!-- Setas -->
+      <button onclick="carouselPrev()" aria-label="anterior" style="position:absolute;left:8px;top:50%;transform:translateY(-50%);background:rgba(0,0,0,0.55);border:1px solid #444;color:#fff;width:40px;height:40px;border-radius:50%;font-size:18px;cursor:pointer;z-index:10;display:flex;align-items:center;justify-content:center;padding:0">&#8592;</button>
+      <button onclick="carouselNext()" aria-label="próximo" style="position:absolute;right:8px;top:50%;transform:translateY(-50%);background:rgba(0,0,0,0.55);border:1px solid #444;color:#fff;width:40px;height:40px;border-radius:50%;font-size:18px;cursor:pointer;z-index:10;display:flex;align-items:center;justify-content:center;padding:0">&#8594;</button>
     </div>
 
-    <!-- Dots indicadores -->
+    <!-- Dots -->
     <div class="flex justify-center gap-2 mt-4" id="dots">
       <div class="dot-indicator" style="width:20px;height:4px;border-radius:2px;background:var(--mint)"></div>
       <div class="dot-indicator" style="width:6px;height:4px;border-radius:2px;background:#333"></div>
@@ -205,39 +203,28 @@
 
 
 <script>
-  // Carrossel infinito
-  const carousel = document.getElementById('carousel');
-  if (carousel) {
-    const origCards = [...carousel.querySelectorAll('.flex-none')];
-    const totalOriginal = origCards.length;
+  // Carrossel infinito com setas e barra de progresso
+  const track = document.getElementById('carousel-track');
+  const progressBar = document.getElementById('carousel-progress');
+  if (track) {
+    const INTERVAL = 4000;
+    const origSlides = [...track.children];
+    const totalOriginal = origSlides.length;
 
-    // Duplica todos os cards no final para criar loop infinito
-    origCards.forEach(card => carousel.appendChild(card.cloneNode(true)));
-
-    // Sempre que a seção entrar na tela, volta para o card 0 (capa obrigatória)
-    const carouselSection = carousel.closest('section');
-    if (carouselSection) {
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            current = 0;
-            scrollToCard(0, true);
-            updateDots(0);
-          }
-        });
-      }, { threshold: 0.3 });
-      observer.observe(carouselSection);
-    }
+    // Clona slides ao final para loop infinito
+    origSlides.forEach(s => track.appendChild(s.cloneNode(true)));
 
     let current = 0;
-    let isUserScrolling = false;
-    let userScrollTimeout;
     let jumping = false;
+    let paused = false;
+    let pauseTimeout;
+    let autoTimer;
+    let progressRAF;
+    let progressStart;
 
-    function scrollToCard(idx, instant) {
-      const cards = carousel.querySelectorAll('.flex-none');
-      const card = cards[idx];
-      if (card) carousel.scrollTo({ left: card.offsetLeft - 20, behavior: instant ? 'instant' : 'smooth' });
+    function setPos(idx, animate) {
+      track.style.transition = animate ? 'transform 0.45s cubic-bezier(.4,0,.2,1)' : 'none';
+      track.style.transform = `translateX(-${idx * 100}%)`;
     }
 
     function updateDots(realIdx) {
@@ -247,45 +234,96 @@
       });
     }
 
-    // Autoplay a cada 2.8s
-    setInterval(() => {
-      if (isUserScrolling || jumping) return;
-      current++;
-      scrollToCard(current);
-      updateDots(current % totalOriginal);
+    function startProgress() {
+      cancelAnimationFrame(progressRAF);
+      progressBar.style.transition = 'none';
+      progressBar.style.width = '0%';
+      progressStart = performance.now();
+      function tick(now) {
+        const pct = Math.min(((now - progressStart) / INTERVAL) * 100, 100);
+        progressBar.style.width = pct + '%';
+        if (pct < 100) progressRAF = requestAnimationFrame(tick);
+      }
+      progressRAF = requestAnimationFrame(tick);
+    }
 
-      // Quando chega na cópia clonada, após o smooth completar, jump invisível de volta ao original
-      if (current >= totalOriginal) {
+    function goTo(idx, animate) {
+      current = idx;
+      setPos(current, animate !== false);
+      updateDots(current % totalOriginal);
+      startProgress();
+      scheduleAutoplay();
+    }
+
+    function next() {
+      if (jumping) return;
+      const nextIdx = current + 1;
+      goTo(nextIdx);
+      if (nextIdx >= totalOriginal) {
         jumping = true;
         setTimeout(() => {
-          current = current % totalOriginal;
-          scrollToCard(current, true);
+          current = nextIdx % totalOriginal;
+          setPos(current, false);
           jumping = false;
-        }, 650);
+        }, 500);
       }
-    }, 2800);
+    }
 
-    // Pausa autoplay quando usuário swipa
-    carousel.addEventListener('touchstart', () => {
-      isUserScrolling = true;
-      clearTimeout(userScrollTimeout);
-    });
-    carousel.addEventListener('touchend', () => {
-      userScrollTimeout = setTimeout(() => { isUserScrolling = false; }, 4000);
-    });
-
-    carousel.addEventListener('scroll', () => {
+    function prev() {
       if (jumping) return;
-      const cards = [...carousel.querySelectorAll('.flex-none')];
-      let closestIdx = 0;
-      let minDist = Infinity;
-      cards.forEach((card, i) => {
-        const dist = Math.abs(card.offsetLeft - 20 - carousel.scrollLeft);
-        if (dist < minDist) { minDist = dist; closestIdx = i; }
-      });
-      current = closestIdx;
-      updateDots(closestIdx % totalOriginal);
+      if (current <= 0) {
+        setPos(totalOriginal, false);
+        current = totalOriginal;
+        requestAnimationFrame(() => goTo(current - 1));
+      } else {
+        goTo(current - 1);
+      }
+    }
+
+    function scheduleAutoplay() {
+      clearTimeout(autoTimer);
+      autoTimer = setTimeout(() => {
+        if (!paused && !jumping) next();
+      }, INTERVAL);
+    }
+
+    window.carouselNext = () => {
+      paused = true;
+      clearTimeout(pauseTimeout);
+      next();
+      pauseTimeout = setTimeout(() => { paused = false; }, 6000);
+    };
+
+    window.carouselPrev = () => {
+      paused = true;
+      clearTimeout(pauseTimeout);
+      prev();
+      pauseTimeout = setTimeout(() => { paused = false; }, 6000);
+    };
+
+    // Swipe touch
+    let tx = 0;
+    track.addEventListener('touchstart', e => { tx = e.touches[0].clientX; paused = true; clearTimeout(pauseTimeout); });
+    track.addEventListener('touchend', e => {
+      const diff = tx - e.changedTouches[0].clientX;
+      if (Math.abs(diff) > 40) diff > 0 ? next() : prev();
+      pauseTimeout = setTimeout(() => { paused = false; }, 6000);
     });
+
+    // Sempre inicia no card 0 quando a seção fica visível
+    const section = document.getElementById('carousel-section');
+    if (section) {
+      new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) {
+          jumping = false;
+          current = 0;
+          setPos(0, false);
+          updateDots(0);
+          startProgress();
+          scheduleAutoplay();
+        }
+      }, { threshold: 0.3 }).observe(section);
+    }
   }
 
   const API_URL = 'http://localhost:3333';
