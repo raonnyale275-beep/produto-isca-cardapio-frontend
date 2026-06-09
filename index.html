@@ -17,7 +17,8 @@
     .fade-up { animation: fadeUp 0.5s ease forwards; }
     @keyframes marquee { from { transform: translate3d(0,0,0); } to { transform: translate3d(-50%,0,0); } }
     .marquee-track { display: flex; width: max-content; animation: marquee 20s linear infinite; will-change: transform; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
-    .logos-track { display: flex; width: max-content; animation: marquee 22s linear infinite; will-change: transform; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+    .logos-track { display: flex; width: max-content; animation: marquee 22s linear infinite; will-change: transform; backface-visibility: hidden; -webkit-backface-visibility: hidden; transform: translateZ(0); -webkit-transform: translateZ(0); }
+    .logos-outer { -webkit-transform: translateZ(0); transform: translateZ(0); isolation: isolate; }
     .marquee-track:hover { animation-play-state: paused; }
     @keyframes spin { to { transform: rotate(360deg); } }
     .spinner { animation: spin 1s linear infinite; }
@@ -117,7 +118,7 @@
   <!-- PLATAFORMAS -->
   <section class="pb-16">
     <p class="text-xs font-semibold uppercase tracking-widest text-center mb-6" style="color:#444">Analisamos cardápios de todas as plataformas</p>
-    <div class="overflow-hidden" style="mask-image:linear-gradient(to right,transparent,black 15%,black 85%,transparent);-webkit-mask-image:linear-gradient(to right,transparent,black 15%,black 85%,transparent)">
+    <div class="logos-outer overflow-hidden" style="mask-image:linear-gradient(to right,transparent,black 15%,black 85%,transparent);-webkit-mask-image:linear-gradient(to right,transparent,black 15%,black 85%,transparent)">
       <div class="logos-track flex items-center gap-8">
         <div class="flex items-center justify-center rounded-xl px-5 flex-none" style="background:#111;height:80px"><img src="logo-cardapio-web.webp" alt="Cardápio Web" class="max-h-12 w-auto object-contain" /></div>
         <div class="flex items-center justify-center rounded-xl px-5 flex-none" style="background:#111;height:80px"><img src="logo-anota-ai.webp" alt="Anota AI" class="max-h-12 w-auto object-contain" /></div>
