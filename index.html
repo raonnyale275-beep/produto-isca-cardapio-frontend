@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pling Company — Análise de Cardápio com IA</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    * { font-family: 'Inter', sans-serif; }
+    :root { --mint: #b8e8c4; --mint-dark: #4a9e64; --gray: #636363; }
+    body { background: #000; color: #fff; }
+    .btn-mint { background-color: var(--mint); color: #000; font-weight: 800; transition: all 0.2s; }
+    .btn-mint:hover { background-color: #cdf0d8; transform: translateY(-1px); }
+    .card-dark { background: #111; border: 1px solid #222; border-radius: 16px; }
+    @keyframes fadeUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+    .fade-up { animation: fadeUp 0.5s ease forwards; }
+    @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+    .marquee-track { display: flex; width: max-content; animation: marquee 20s linear infinite; }
+    .marquee-track:hover { animation-play-state: paused; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .spinner { animation: spin 1s linear infinite; }
+    .progress-bar { transition: width 0.3s ease; }
+    .blur-content { filter: blur(5px); user-select: none; pointer-events: none; }
+    .gradient-text { background: linear-gradient(90deg, #fff 0%, var(--mint) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .video-wrapper { position: relative; padding-bottom: 56.25%; height: 0; border-radius: 16px; overflow: hidden; }
+    .video-wrapper iframe { position: absolute; top:0; left:0; width:100%; height:100%; border:0; }
+    input { background: #111 !important; color: #fff !important; }
+    input::placeholder { color: #555 !important; }
+    input:focus { border-color: var(--mint) !important; outline: none; }
+  </style>
+</head>
+<body>
+
+<!-- LANDING -->
+<div id="tela-landing">
+
+  <!-- HEADER -->
+  <header class="px-5 py-4 md:px-10 md:py-5 max-w-5xl mx-auto flex items-center justify-between">
+    <img src="logo-pling.png" alt="Pling Company" class="h-8 md:h-10 w-auto" />
+    <a href="#analisar" class="btn-mint px-4 py-2 md:px-6 md:py-3 rounded-full text-sm font-bold">Analisar grátis</a>
+  </header>
+
+  <!-- HEADLINE -->
+  <section class="px-5 pt-10 pb-6 md:pt-16 md:pb-8 text-center max-w-2xl mx-auto fade-up">
+    <h1 class="text-3xl md:text-5xl font-black leading-tight mb-3 md:mb-5">
+      Descubra o que está<br/><span class="gradient-text">matando suas vendas.</span>
+    </h1>
+    <p class="text-sm md:text-lg" style="color: #666">Assista e entenda por que a maioria dos restaurantes perde dinheiro todo dia sem saber.</p>
+  </section>
+
+  <!-- VIDEO -->
+  <section class="px-4 md:px-10 pb-10 md:pb-14 max-w-4xl mx-auto">
+    <div class="video-wrapper" style="box-shadow: 0 0 60px rgba(184,232,196,0.12)">
+      <iframe src="https://www.youtube.com/embed/NOc8oHmTEPI"
+        title="A importância de um cardápio bem feito"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen></iframe>
+    </div>
+  </section>
+
+  <!-- FAIXA MARQUEE -->
+  <div class="overflow-hidden py-2.5 mb-8" style="background: var(--mint)">
+    <div class="marquee-track">
+      <span class="text-sm font-black whitespace-nowrap px-6 uppercase tracking-wide" style="color:#000">Para deliverys que faturam menos de R$ 10k/mês</span>
+      <span class="text-sm font-black whitespace-nowrap px-3" style="color:#4a9e64">★</span>
+      <span class="text-sm font-black whitespace-nowrap px-6 uppercase tracking-wide" style="color:#000">Para quem quer crescer sem depender de anúncio</span>
+      <span class="text-sm font-black whitespace-nowrap px-3" style="color:#4a9e64">★</span>
+      <span class="text-sm font-black whitespace-nowrap px-6 uppercase tracking-wide" style="color:#000">Para quem sente que o cardápio não converte</span>
+      <span class="text-sm font-black whitespace-nowrap px-3" style="color:#4a9e64">★</span>
+      <span class="text-sm font-black whitespace-nowrap px-6 uppercase tracking-wide" style="color:#000">Para deliverys que querem dobrar o faturamento</span>
+      <span class="text-sm font-black whitespace-nowrap px-3" style="color:#4a9e64">★</span>
+      <span class="text-sm font-black whitespace-nowrap px-6 uppercase tracking-wide" style="color:#000">Para quem quer se destacar da concorrência</span>
+      <span class="text-sm font-black whitespace-nowrap px-3" style="color:#4a9e64">★</span>
+      <!-- duplicado para loop contínuo -->
+      <span class="text-sm font-black whitespace-nowrap px-6 uppercase tracking-wide" style="color:#000">Para deliverys que faturam menos de R$ 10k/mês</span>
+      <span class="text-sm font-black whitespace-nowrap px-3" style="color:#4a9e64">★</span>
+      <span class="text-sm font-black whitespace-nowrap px-6 uppercase tracking-wide" style="color:#000">Para quem quer crescer sem depender de anúncio</span>
+      <span class="text-sm font-black whitespace-nowrap px-3" style="color:#4a9e64">★</span>
+      <span class="text-sm font-black whitespace-nowrap px-6 uppercase tracking-wide" style="color:#000">Para quem sente que o cardápio não converte</span>
+      <span class="text-sm font-black whitespace-nowrap px-3" style="color:#4a9e64">★</span>
+      <span class="text-sm font-black whitespace-nowrap px-6 uppercase tracking-wide" style="color:#000">Para deliverys que querem dobrar o faturamento</span>
+      <span class="text-sm font-black whitespace-nowrap px-3" style="color:#4a9e64">★</span>
+      <span class="text-sm font-black whitespace-nowrap px-6 uppercase tracking-wide" style="color:#000">Para quem quer se destacar da concorrência</span>
+      <span class="text-sm font-black whitespace-nowrap px-3" style="color:#4a9e64">★</span>
+    </div>
+  </div>
+
+  <!-- FORMULÁRIO -->
+  <section id="analisar" class="px-5 pb-20 max-w-lg mx-auto">
+    <h2 class="text-xl md:text-2xl font-black mb-1 text-center">Analise seu cardápio agora</h2>
+    <p class="text-sm mb-6 text-center" style="color: #666">Cole o link e descubra o que está travando suas vendas.</p>
+
+    <div class="card-dark p-5 md:p-7">
+      <label class="block text-sm font-semibold mb-2" style="color: #aaa">Link do seu cardápio</label>
+      <input id="input-url" type="url" placeholder="https://seu-cardapio.com.br"
+        class="w-full px-4 py-4 border-2 rounded-xl text-base transition-colors mb-3" style="border-color: #333" />
+      <button onclick="irParaCaptura()" class="btn-mint w-full py-4 rounded-xl text-base font-bold">
+        Analisar meu cardápio grátis
+      </button>
+      <p class="text-xs text-center mt-3" style="color: #444">Gratuito · Resultado em ~30 segundos</p>
+    </div>
+  </section>
+
+  <!-- CARROSSEL EDUCATIVO -->
+  <section class="pb-16">
+    <div class="px-5 mb-6 max-w-3xl mx-auto">
+      <p class="text-sm font-semibold uppercase tracking-widest mb-2" style="color:var(--mint)">Engenharia de cardápio</p>
+      <h2 class="text-2xl md:text-3xl font-black">O que separa um cardápio comum<br/>de um cardápio que vende.</h2>
+    </div>
+
+    <!-- Scroll horizontal com snap -->
+    <div id="carousel" class="flex gap-3 overflow-x-auto pb-4 px-5" style="scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch; scrollbar-width:none">
+      <div class="flex-none rounded-2xl overflow-hidden" style="width:78vw; max-width:340px; scroll-snap-align:start">
+        <img src="card6.jpg" class="w-full h-auto block" style="border-radius:16px" />
+      </div>
+      <div class="flex-none rounded-2xl overflow-hidden" style="width:78vw; max-width:340px; scroll-snap-align:start">
+        <img src="card1.jpg" class="w-full h-auto block" style="border-radius:16px" />
+      </div>
+      <div class="flex-none rounded-2xl overflow-hidden" style="width:78vw; max-width:340px; scroll-snap-align:start">
+        <img src="card2.jpg" class="w-full h-auto block" style="border-radius:16px" />
+      </div>
+      <div class="flex-none rounded-2xl overflow-hidden" style="width:78vw; max-width:340px; scroll-snap-align:start">
+        <img src="card3.jpg" class="w-full h-auto block" style="border-radius:16px" />
+      </div>
+      <div class="flex-none rounded-2xl overflow-hidden" style="width:78vw; max-width:340px; scroll-snap-align:start">
+        <img src="card4.jpg" class="w-full h-auto block" style="border-radius:16px" />
+      </div>
+      <div class="flex-none rounded-2xl overflow-hidden" style="width:78vw; max-width:340px; scroll-snap-align:start">
+        <img src="card5.jpg" class="w-full h-auto block" style="border-radius:16px" />
+      </div>
+    </div>
+
+    <!-- Dots indicadores -->
+    <div class="flex justify-center gap-2 mt-4" id="dots">
+      <div class="dot-indicator" style="width:20px;height:4px;border-radius:2px;background:var(--mint)"></div>
+      <div class="dot-indicator" style="width:6px;height:4px;border-radius:2px;background:#333"></div>
+      <div class="dot-indicator" style="width:6px;height:4px;border-radius:2px;background:#333"></div>
+      <div class="dot-indicator" style="width:6px;height:4px;border-radius:2px;background:#333"></div>
+      <div class="dot-indicator" style="width:6px;height:4px;border-radius:2px;background:#333"></div>
+      <div class="dot-indicator" style="width:6px;height:4px;border-radius:2px;background:#333"></div>
+    </div>
+  </section>
+
+  <!-- COMPARAÇÃO -->
+  <section class="px-5 pb-20 max-w-3xl mx-auto">
+    <h2 class="text-xl md:text-3xl font-black text-center mb-2">Cardápio que vende<br/>x cardápio que não vende</h2>
+    <p class="text-sm text-center mb-8" style="color:#666">A diferença está nos detalhes — e ela aparece direto no faturamento.</p>
+
+    <div class="grid grid-cols-2 gap-3 md:gap-5">
+
+      <!-- NÃO VENDE -->
+      <div class="rounded-2xl overflow-hidden" style="border:1px solid #2d1515">
+        <div class="px-4 py-2 text-center text-xs font-bold uppercase tracking-widest" style="background:#1a0808; color:#f87171">Não vende</div>
+        <!-- Foto -->
+        <div class="flex items-center justify-center text-xs" style="background:#111; height:100px; color:#444; border-bottom:1px solid #1a1a1a">
+          sem foto
+        </div>
+        <div class="p-4">
+          <p class="font-bold text-sm mb-1">X-Burguer</p>
+          <p class="text-xs mb-3" style="color:#444">—</p>
+          <div class="flex items-center justify-between">
+            <span class="text-sm font-bold">R$ 25,00</span>
+          </div>
+        </div>
+        <!-- Problemas -->
+        <div class="px-4 pb-4 space-y-1">
+          <p class="text-xs" style="color:#f87171">Nome genérico</p>
+          <p class="text-xs" style="color:#f87171">Sem descrição</p>
+          <p class="text-xs" style="color:#f87171">Sem foto</p>
+          <p class="text-xs" style="color:#f87171">Preço sem contexto</p>
+        </div>
+      </div>
+
+      <!-- VENDE -->
+      <div class="rounded-2xl overflow-hidden" style="border:1px solid #1a4a25">
+        <div class="px-4 py-2 text-center text-xs font-bold uppercase tracking-widest" style="background:#081a0e; color:#34d399">Vende</div>
+        <!-- Foto -->
+        <div class="flex items-center justify-center text-xs font-medium" style="background:#0d1f12; height:100px; color:var(--mint); border-bottom:1px solid #1a2e1d">
+          foto profissional
+        </div>
+        <div class="p-4">
+          <p class="font-bold text-sm mb-1">Smash Burguer Artesanal</p>
+          <p class="text-xs mb-3" style="color:#888">Pão brioche, 180g angus, cheddar derretido e molho da casa</p>
+          <div class="flex items-center justify-between">
+            <span class="text-sm font-bold" style="color:var(--mint)">R$ 29,90</span>
+            <span class="text-xs px-2 py-0.5 rounded-full font-semibold" style="background:#0d1f12; color:var(--mint)">+ pedido</span>
+          </div>
+        </div>
+        <!-- Qualidades -->
+        <div class="px-4 pb-4 space-y-1">
+          <p class="text-xs" style="color:#34d399">Nome com identidade</p>
+          <p class="text-xs" style="color:#34d399">Descrição apetitosa</p>
+          <p class="text-xs" style="color:#34d399">Foto que converte</p>
+          <p class="text-xs" style="color:#34d399">Preço com ancoragem</p>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="mt-8 text-center">
+      <p class="text-sm mb-5" style="color:#666">Qual desses dois você compraria sem pensar duas vezes?</p>
+      <a href="#analisar" class="btn-mint inline-block px-8 py-4 rounded-xl text-sm font-bold">
+        Descubra como está o seu cardápio
+      </a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="px-6 py-6 text-center" style="border-top: 1px solid #111">
+    <p class="text-xs" style="color: #333">2025 Pling Company</p>
+  </footer>
+
+</div>
+
+
+<!-- CAPTURA DE LEAD -->
+<div id="tela-captura" class="hidden min-h-screen flex flex-col justify-center px-5 py-10">
+  <div class="card-dark p-6 w-full fade-up">
+    <img src="logo-pling.png" alt="Pling Company" class="h-7 mx-auto mb-5 opacity-70" />
+    <h2 class="text-xl font-bold mb-1 text-center">Quase lá!</h2>
+    <p class="text-sm mb-5 text-center" style="color: #666">Para onde enviamos sua análise?</p>
+    <div class="space-y-3">
+      <div>
+        <label class="text-sm font-medium mb-1 block" style="color: #aaa">Seu nome</label>
+        <input id="input-nome" type="text" placeholder="João Silva"
+          class="w-full px-4 py-4 border-2 rounded-xl text-base transition-colors" style="border-color: #333" />
+      </div>
+      <div>
+        <label class="text-sm font-medium mb-1 block" style="color: #aaa">WhatsApp</label>
+        <input id="input-whats" type="tel" placeholder="(11) 99999-9999"
+          class="w-full px-4 py-4 border-2 rounded-xl text-base transition-colors" style="border-color: #333" />
+      </div>
+    </div>
+    <button onclick="iniciarAnalise()" class="btn-mint w-full mt-4 py-4 rounded-xl text-base font-bold">
+      Receber minha análise
+    </button>
+    <p class="text-xs text-center mt-3" style="color: #444">Você receberá sua análise em instantes</p>
+  </div>
+</div>
+
+
+<!-- LOADING -->
+<div id="tela-loading" class="hidden min-h-screen flex flex-col items-center justify-center px-6">
+  <div class="text-center max-w-sm">
+    <div class="w-14 h-14 border-4 rounded-full spinner mx-auto mb-6" style="border-color: #222; border-top-color: var(--mint)"></div>
+    <h2 id="loading-text" class="text-lg font-semibold mb-4">Acessando seu cardápio...</h2>
+    <div class="rounded-full h-1.5 w-56 mx-auto overflow-hidden" style="background: #1a1a1a">
+      <div id="progress-bar" class="h-full rounded-full progress-bar" style="width:0%; background: var(--mint)"></div>
+    </div>
+    <p class="text-sm mt-3" style="color: #555" id="progress-percent">0%</p>
+  </div>
+</div>
+
+
+<!-- RELATÓRIO -->
+<div id="tela-relatorio" class="hidden min-h-screen">
+  <header class="px-6 py-4 sticky top-0 z-10" style="background:#000; border-bottom:1px solid #1a1a1a">
+    <div class="max-w-4xl mx-auto flex items-center justify-between">
+      <img src="logo-pling.png" alt="Pling Company" class="h-7 w-auto" />
+      <button onclick="novaAnalise()" class="text-sm font-medium hover:opacity-70 transition-opacity" style="color: var(--mint)">
+        Nova análise
+      </button>
+    </div>
+  </header>
+  <div class="max-w-4xl mx-auto px-6 py-8 space-y-5" id="conteudo-relatorio"></div>
+</div>
+
+
+<script>
+  // Carrossel infinito
+  const carousel = document.getElementById('carousel');
+  if (carousel) {
+    const origCards = [...carousel.querySelectorAll('.flex-none')];
+    const totalOriginal = origCards.length;
+
+    // Duplica todos os cards no final para criar loop infinito
+    origCards.forEach(card => carousel.appendChild(card.cloneNode(true)));
+
+    let current = 0;
+    let isUserScrolling = false;
+    let userScrollTimeout;
+    let jumping = false;
+
+    function scrollToCard(idx, instant) {
+      const cards = carousel.querySelectorAll('.flex-none');
+      const card = cards[idx];
+      if (card) carousel.scrollTo({ left: card.offsetLeft - 20, behavior: instant ? 'instant' : 'smooth' });
+    }
+
+    function updateDots(realIdx) {
+      document.querySelectorAll('.dot-indicator').forEach((d, i) => {
+        d.style.width = i === realIdx ? '20px' : '6px';
+        d.style.background = i === realIdx ? 'var(--mint)' : '#333';
+      });
+    }
+
+    // Autoplay a cada 2.8s
+    setInterval(() => {
+      if (isUserScrolling || jumping) return;
+      current++;
+      scrollToCard(current);
+      updateDots(current % totalOriginal);
+
+      // Quando chega na cópia clonada, após o smooth completar, jump invisível de volta ao original
+      if (current >= totalOriginal) {
+        jumping = true;
+        setTimeout(() => {
+          current = current % totalOriginal;
+          scrollToCard(current, true);
+          jumping = false;
+        }, 650);
+      }
+    }, 2800);
+
+    // Pausa autoplay quando usuário swipa
+    carousel.addEventListener('touchstart', () => {
+      isUserScrolling = true;
+      clearTimeout(userScrollTimeout);
+    });
+    carousel.addEventListener('touchend', () => {
+      userScrollTimeout = setTimeout(() => { isUserScrolling = false; }, 4000);
+    });
+
+    carousel.addEventListener('scroll', () => {
+      if (jumping) return;
+      const cards = [...carousel.querySelectorAll('.flex-none')];
+      let closestIdx = 0;
+      let minDist = Infinity;
+      cards.forEach((card, i) => {
+        const dist = Math.abs(card.offsetLeft - 20 - carousel.scrollLeft);
+        if (dist < minDist) { minDist = dist; closestIdx = i; }
+      });
+      current = closestIdx;
+      updateDots(closestIdx % totalOriginal);
+    });
+  }
+
+  const API_URL = 'http://localhost:3333';
+  let urlCardapio = '';
+
+  function irParaCaptura() {
+    const url = document.getElementById('input-url').value.trim();
+    if (!url || !url.startsWith('http')) { alert('Cole uma URL válida'); return; }
+    urlCardapio = url;
+    mostrarTela('tela-captura');
+  }
+
+  async function iniciarAnalise() {
+    const nome = document.getElementById('input-nome').value.trim();
+    const whats = document.getElementById('input-whats').value.trim();
+    if (!nome || !whats) { alert('Preencha seu nome e WhatsApp'); return; }
+    mostrarTela('tela-loading');
+    iniciarProgress();
+    try {
+      const res = await fetch(`${API_URL}/api/analisar`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ url: urlCardapio, nome, whatsapp: whats })
+      });
+      const data = await res.json();
+      if (!data.success) throw new Error(data.error);
+      mostrarRelatorio(data.analise, data.secoes || []);
+    } catch (err) {
+      alert('Erro ao analisar: ' + err.message);
+      mostrarTela('tela-landing');
+    }
+  }
+
+  function iniciarProgress() {
+    const textos = ['Acessando seu cardápio...','Extraindo produtos e preços...','Identificando oportunidades...','Analisando com IA...','Preparando seu relatório...'];
+    let prog = 0, idx = 0;
+    const t1 = setInterval(() => {
+      prog += Math.random() * 3 + 1;
+      if (prog > 90) prog = 90;
+      document.getElementById('progress-bar').style.width = prog + '%';
+      document.getElementById('progress-percent').textContent = Math.floor(prog) + '%';
+    }, 500);
+    const t2 = setInterval(() => {
+      idx = (idx + 1) % textos.length;
+      document.getElementById('loading-text').textContent = textos[idx];
+    }, 4000);
+    window._intervals = [t1, t2];
+  }
+
+  function mostrarRelatorio(analise, secoes) {
+    if (window._intervals) window._intervals.forEach(clearInterval);
+    document.getElementById('progress-bar').style.width = '100%';
+
+    const scoreCor = (s) => s >= 7 ? '#34d399' : s >= 5 ? '#fbbf24' : '#f87171';
+    const scoreEmoji = (s) => s >= 7 ? '●' : s >= 5 ? '●' : '●';
+    const scoreColor = (s) => s >= 7 ? 'color:#34d399' : s >= 5 ? 'color:#fbbf24' : 'color:#f87171';
+
+    const html = `
+      <div class="fade-up">
+        <h1 class="text-xl font-bold">${analise.estabelecimento}</h1>
+        <p class="text-xs mt-1" style="color:#555">${urlCardapio}</p>
+        <div class="flex gap-4 mt-2 text-xs" style="color:#666">
+          <span>${analise.total_produtos} produtos</span>
+          <span>${analise.total_categorias} categorias</span>
+          <span>${analise.produtos_com_foto} com foto</span>
+        </div>
+      </div>
+
+      <div class="fade-up rounded-2xl p-7 text-center" style="background:linear-gradient(135deg,#111 0%,#1a2e1d 100%); border:1px solid #2a4a2d">
+        <p class="text-xs uppercase tracking-widest mb-2" style="color:var(--mint)">Score geral</p>
+        <div class="text-7xl font-black mb-1" style="color:var(--mint)">${analise.score_geral}</div>
+        <p class="text-lg font-semibold mb-4">${analise.classificacao}</p>
+        <div class="rounded-full h-2 max-w-xs mx-auto overflow-hidden" style="background:#1a1a1a">
+          <div class="h-full rounded-full transition-all duration-1000" style="width:${analise.score_geral}%; background:var(--mint)"></div>
+        </div>
+        <p class="text-sm mt-4 max-w-sm mx-auto" style="color:#888">${analise.primeiras_impressoes}</p>
+      </div>
+
+      <div class="fade-up grid grid-cols-2 md:grid-cols-3 gap-3">
+        ${Object.entries({
+          'Organização': analise.scores.organizacao,
+          'Descrições': analise.scores.descricoes,
+          'Precificação': analise.scores.precificacao,
+          'Fotos': analise.scores.fotos,
+          'Nomes': analise.scores.nomes,
+          'Adicionais': analise.scores.adicionais
+        }).map(([label, score]) => `
+          <div class="card-dark p-4">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-xs" style="color:#666">${label}</span>
+              <span class="text-xs font-bold" style="${scoreColor(score)}">${score}/10</span>
+            </div>
+            <div class="rounded-full h-1.5 overflow-hidden" style="background:#222">
+              <div class="h-full rounded-full" style="width:${score*10}%; background:${scoreCor(score)}"></div>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+
+      <div class="fade-up card-dark p-5">
+        <h3 class="font-bold text-sm mb-4" style="color:#aaa">Faixa de Preços</h3>
+        <div class="grid grid-cols-3 gap-4 text-center">
+          <div><p class="text-xs mb-1" style="color:#555">Menor</p><p class="font-bold">${analise.faixa_preco?.menor || 'N/A'}</p></div>
+          <div style="border-left:1px solid #222;border-right:1px solid #222"><p class="text-xs mb-1" style="color:#555">Médio</p><p class="font-bold" style="color:var(--mint)">${analise.faixa_preco?.medio || 'N/A'}</p></div>
+          <div><p class="text-xs mb-1" style="color:#555">Maior</p><p class="font-bold">${analise.faixa_preco?.maior || 'N/A'}</p></div>
+        </div>
+      </div>
+
+      ${secoes && secoes.length > 0 ? `
+      <div class="fade-up card-dark p-5">
+        <h3 class="font-bold text-sm mb-1" style="color:#aaa">Cardápio capturado</h3>
+        <p class="text-xs mb-4" style="color:#555">3 seções analisadas pela IA</p>
+        <div class="grid grid-cols-3 gap-2">
+          ${secoes.map((s, i) => `
+            <div class="rounded-xl overflow-hidden" style="border:1px solid #222">
+              <div class="px-2 py-1 text-xs" style="background:#0d0d0d;color:#555;border-bottom:1px solid #222">
+                ${i === 0 ? 'Topo' : i === 1 ? 'Meio' : 'Final'}
+              </div>
+              <img src="data:image/jpeg;base64,${s}" class="w-full" />
+            </div>
+          `).join('')}
+        </div>
+      </div>` : ''}
+
+      ${analise.produtos_destaque && analise.produtos_destaque.length > 0 ? `
+      <div class="fade-up card-dark p-5">
+        <h3 class="font-bold text-sm mb-4" style="color:#aaa">Análise dos produtos</h3>
+        <div class="space-y-3">
+          ${analise.produtos_destaque.map(p => `
+            <div style="border:1px solid #222;border-radius:10px;padding:14px">
+              <div class="flex items-center justify-between mb-2">
+                <span class="font-semibold text-sm">${p.nome}</span>
+                <span class="text-sm font-bold" style="color:var(--mint)">${p.preco}</span>
+              </div>
+              <p class="text-xs mb-1" style="color:#f87171">${p.problema}</p>
+              <p class="text-xs" style="color:#34d399">${p.sugestao}</p>
+            </div>
+          `).join('')}
+        </div>
+      </div>` : ''}
+
+      <div class="fade-up grid grid-cols-1 md:grid-cols-2 gap-3">
+        ${[['Descrições', analise.analise_descricoes],['Precificação', analise.analise_precificacao],['Fotos', analise.analise_fotos],['Organização', analise.analise_organizacao]].filter(([,v])=>v).map(([k,v])=>`
+          <div class="card-dark p-4"><p class="text-xs font-semibold mb-2" style="color:#aaa">${k}</p><p class="text-sm leading-relaxed" style="color:#777">${v}</p></div>
+        `).join('')}
+      </div>
+
+      <div class="fade-up rounded-2xl p-5" style="background:#0f0808;border:1px solid #2d1515">
+        <h3 class="font-bold text-sm mb-3" style="color:#f87171">Atenção imediata</h3>
+        <ul class="space-y-2">
+          ${analise.pontos_fracos.map(p=>`<li class="text-sm" style="color:#f87171">${p}</li>`).join('')}
+        </ul>
+      </div>
+
+      <div class="fade-up rounded-2xl p-5" style="background:#081a0e;border:1px solid #1a4a25">
+        <h3 class="font-bold text-sm mb-3" style="color:#34d399">O que está funcionando</h3>
+        <ul class="space-y-2">
+          ${analise.pontos_fortes.map(p=>`<li class="text-sm" style="color:#34d399">${p}</li>`).join('')}
+        </ul>
+      </div>
+
+      <div class="fade-up rounded-2xl p-6" style="background:#0d0d0d;border:1px solid #1a1a1a">
+        <h3 class="font-bold mb-5">Top 5 ações para vender mais</h3>
+        <div class="flex items-start gap-4 mb-4">
+          <span class="text-2xl font-black" style="color:var(--mint)">1</span>
+          <div>
+            <p class="font-semibold text-sm">${analise.acoes_prioritarias[0]?.titulo}</p>
+            <p class="text-xs mt-1" style="color:#555">${analise.acoes_prioritarias[0]?.impacto}</p>
+          </div>
+        </div>
+        <div class="relative">
+          <div class="blur-content space-y-4">
+            ${analise.acoes_prioritarias.slice(1).map((a,i)=>`
+              <div class="flex items-start gap-4">
+                <span class="text-2xl font-black" style="color:var(--mint)">${i+2}</span>
+                <div><p class="font-semibold text-sm">${a.titulo}</p><p class="text-xs mt-1" style="color:#555">${a.impacto}</p></div>
+              </div>
+            `).join('')}
+          </div>
+          <div class="absolute inset-0 flex flex-col items-center justify-center rounded-xl" style="background:rgba(0,0,0,0.85)">
+            <p class="text-white font-bold text-sm">Desbloqueie a análise completa</p>
+          </div>
+        </div>
+
+        <div class="mt-5 rounded-xl p-5 text-center" style="background:#111;border:1px solid #2a4a2d">
+          <p class="font-bold mb-1">Quer o plano completo de melhorias?</p>
+          <p class="text-sm mb-4" style="color:var(--mint)">Fale com nosso especialista e receba um diagnóstico personalizado</p>
+          <button onclick="abrirCTA()" class="btn-mint px-8 py-3 rounded-xl w-full font-bold text-sm">
+            Quero minha análise completa
+          </button>
+        </div>
+      </div>
+
+      <p class="text-center text-xs pb-6" style="color:#333">Pling Company · Análise gerada por IA</p>
+    `;
+
+    document.getElementById('conteudo-relatorio').innerHTML = html;
+    mostrarTela('tela-relatorio');
+  }
+
+  function abrirCTA() { alert('Em breve! Nossa equipe vai entrar em contato pelo WhatsApp.'); }
+
+  function novaAnalise() {
+    urlCardapio = '';
+    ['input-url','input-nome','input-whats'].forEach(id => document.getElementById(id).value = '');
+    mostrarTela('tela-landing');
+  }
+
+  function mostrarTela(id) {
+    ['tela-landing','tela-captura','tela-loading','tela-relatorio'].forEach(t => document.getElementById(t).classList.add('hidden'));
+    document.getElementById(id).classList.remove('hidden');
+    window.scrollTo(0, 0);
+  }
+</script>
+</body>
+</html>
