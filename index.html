@@ -53,10 +53,15 @@
   <!-- VIDEO -->
   <section class="px-4 md:px-10 pb-10 md:pb-14 max-w-4xl mx-auto">
     <div class="video-wrapper" style="box-shadow: 0 0 60px rgba(184,232,196,0.12)">
-      <iframe src="https://www.youtube.com/embed/NOc8oHmTEPI?autoplay=1&mute=1&loop=1&playlist=NOc8oHmTEPI&playsinline=1"
+      <iframe id="vid-main" src="https://www.youtube.com/embed/NOc8oHmTEPI?autoplay=1&mute=1&controls=0&playsinline=1&modestbranding=1"
         title="A importância de um cardápio bem feito"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
         allowfullscreen></iframe>
+      <div id="vid-main-overlay" onclick="ativarSom('vid-main','NOc8oHmTEPI')" style="position:absolute;bottom:16px;left:50%;transform:translateX(-50%);cursor:pointer;z-index:10">
+        <div style="background:rgba(0,0,0,0.75);border:1px solid rgba(184,232,196,0.4);color:var(--mint);font-size:13px;font-weight:700;padding:8px 20px;border-radius:999px;white-space:nowrap;backdrop-filter:blur(6px)">
+          Ativar som
+        </div>
+      </div>
     </div>
   </section>
 
@@ -173,13 +178,18 @@
     <h2 class="text-3xl md:text-4xl font-black mb-2 leading-tight">De R$8k para<br/><span style="color:var(--mint)">R$116k por mês.</span></h2>
     <p class="text-sm mb-8" style="color:#555">O cardápio certo muda tudo. Veja o relato.</p>
     <div class="mx-auto overflow-hidden rounded-2xl" style="max-width:320px;position:relative;padding-bottom:177%;height:0">
-      <iframe
-        src="https://www.youtube.com/embed/HPUH3m9XKCY?autoplay=1&mute=1&loop=1&playlist=HPUH3m9XKCY&playsinline=1"
+      <iframe id="vid-dep"
+        src="https://www.youtube.com/embed/HPUH3m9XKCY?autoplay=1&mute=1&controls=0&playsinline=1&modestbranding=1"
         title="De R$8k para R$116k por mês"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
         allowfullscreen
         style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;border-radius:16px">
       </iframe>
+      <div id="vid-dep-overlay" onclick="ativarSom('vid-dep','HPUH3m9XKCY')" style="position:absolute;bottom:20px;left:50%;transform:translateX(-50%);cursor:pointer;z-index:10">
+        <div style="background:rgba(0,0,0,0.75);border:1px solid rgba(184,232,196,0.4);color:var(--mint);font-size:13px;font-weight:700;padding:8px 20px;border-radius:999px;white-space:nowrap;backdrop-filter:blur(6px)">
+          Ativar som
+        </div>
+      </div>
     </div>
   </section>
 
@@ -303,6 +313,13 @@
 
 
 <script>
+  function ativarSom(iframeId, videoId) {
+    const iframe = document.getElementById(iframeId);
+    const overlay = document.getElementById(iframeId + '-overlay');
+    iframe.src = 'https://www.youtube.com/embed/' + videoId + '?autoplay=1&mute=0&controls=1&playsinline=1&modestbranding=1';
+    if (overlay) overlay.style.display = 'none';
+  }
+
   function toggleFaq(btn) {
     const body = btn.nextElementSibling;
     const icon = btn.querySelector('.faq-icon');
