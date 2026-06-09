@@ -17,6 +17,7 @@
     .fade-up { animation: fadeUp 0.5s ease forwards; }
     @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
     .marquee-track { display: flex; width: max-content; animation: marquee 20s linear infinite; }
+    .logos-track { width: max-content; animation: marquee 22s linear infinite; }
     .marquee-track:hover { animation-play-state: paused; }
     @keyframes spin { to { transform: rotate(360deg); } }
     .spinner { animation: spin 1s linear infinite; }
@@ -103,29 +104,25 @@
   </section>
 
   <!-- PLATAFORMAS -->
-  <section class="px-5 pb-16 max-w-3xl mx-auto">
+  <section class="pb-16">
     <p class="text-xs font-semibold uppercase tracking-widest text-center mb-6" style="color:#444">Analisamos cardápios de todas as plataformas</p>
-    <div class="grid grid-cols-3 gap-4">
-      <div class="flex items-center justify-center rounded-xl p-3" style="background:#111;height:64px">
-        <img src="logo-cardapio-web.webp" alt="Cardápio Web" class="max-h-8 w-auto object-contain" style="" />
-      </div>
-      <div class="flex items-center justify-center rounded-xl p-3" style="background:#111;height:64px">
-        <img src="logo-anota-ai.webp" alt="Anota AI" class="max-h-8 w-auto object-contain" style="" />
-      </div>
-      <div class="flex items-center justify-center rounded-xl p-3" style="background:#111;height:64px">
-        <img src="logo-instadelivery.png" alt="InstaDelivery" class="max-h-8 w-auto object-contain" style="" />
-      </div>
-      <div class="flex items-center justify-center rounded-xl p-3" style="background:#111;height:64px">
-        <img src="logo-goomer.png" alt="Goomer" class="max-h-8 w-auto object-contain" style="" />
-      </div>
-      <div class="flex items-center justify-center rounded-xl p-3" style="background:#111;height:64px">
-        <img src="logo-delivery-direto.png" alt="Delivery Direto" class="max-h-8 w-auto object-contain" style="" />
-      </div>
-      <div class="flex items-center justify-center rounded-xl p-3" style="background:#111;height:64px">
-        <img src="logo-plug-delivery.webp" alt="Plug Delivery" class="max-h-8 w-auto object-contain" style="" />
-      </div>
-      <div class="flex items-center justify-center rounded-xl p-3" style="background:#111;height:64px">
-        <img src="logo-neemo.jpg" alt="Neemo" class="max-h-8 w-auto object-contain" style="" />
+    <div class="overflow-hidden" style="mask-image:linear-gradient(to right,transparent,black 15%,black 85%,transparent);-webkit-mask-image:linear-gradient(to right,transparent,black 15%,black 85%,transparent)">
+      <div class="logos-track flex items-center gap-8">
+        <div class="flex items-center justify-center rounded-xl px-5 flex-none" style="background:#111;height:64px"><img src="logo-cardapio-web.webp" alt="Cardápio Web" class="max-h-8 w-auto object-contain" /></div>
+        <div class="flex items-center justify-center rounded-xl px-5 flex-none" style="background:#111;height:64px"><img src="logo-anota-ai.webp" alt="Anota AI" class="max-h-8 w-auto object-contain" /></div>
+        <div class="flex items-center justify-center rounded-xl px-5 flex-none" style="background:#111;height:64px"><img src="logo-instadelivery.png" alt="InstaDelivery" class="max-h-8 w-auto object-contain" /></div>
+        <div class="flex items-center justify-center rounded-xl px-5 flex-none" style="background:#111;height:64px"><img src="logo-goomer.png" alt="Goomer" class="max-h-8 w-auto object-contain" /></div>
+        <div class="flex items-center justify-center rounded-xl px-5 flex-none" style="background:#111;height:64px"><img src="logo-delivery-direto.png" alt="Delivery Direto" class="max-h-8 w-auto object-contain" /></div>
+        <div class="flex items-center justify-center rounded-xl px-5 flex-none" style="background:#111;height:64px"><img src="logo-plug-delivery.webp" alt="Plug Delivery" class="max-h-8 w-auto object-contain" /></div>
+        <div class="flex items-center justify-center rounded-xl px-5 flex-none" style="background:#111;height:64px"><img src="logo-neemo.jpg" alt="Neemo" class="max-h-8 w-auto object-contain" /></div>
+        <!-- duplicado para loop contínuo -->
+        <div class="flex items-center justify-center rounded-xl px-5 flex-none" style="background:#111;height:64px"><img src="logo-cardapio-web.webp" alt="Cardápio Web" class="max-h-8 w-auto object-contain" /></div>
+        <div class="flex items-center justify-center rounded-xl px-5 flex-none" style="background:#111;height:64px"><img src="logo-anota-ai.webp" alt="Anota AI" class="max-h-8 w-auto object-contain" /></div>
+        <div class="flex items-center justify-center rounded-xl px-5 flex-none" style="background:#111;height:64px"><img src="logo-instadelivery.png" alt="InstaDelivery" class="max-h-8 w-auto object-contain" /></div>
+        <div class="flex items-center justify-center rounded-xl px-5 flex-none" style="background:#111;height:64px"><img src="logo-goomer.png" alt="Goomer" class="max-h-8 w-auto object-contain" /></div>
+        <div class="flex items-center justify-center rounded-xl px-5 flex-none" style="background:#111;height:64px"><img src="logo-delivery-direto.png" alt="Delivery Direto" class="max-h-8 w-auto object-contain" /></div>
+        <div class="flex items-center justify-center rounded-xl px-5 flex-none" style="background:#111;height:64px"><img src="logo-plug-delivery.webp" alt="Plug Delivery" class="max-h-8 w-auto object-contain" /></div>
+        <div class="flex items-center justify-center rounded-xl px-5 flex-none" style="background:#111;height:64px"><img src="logo-neemo.jpg" alt="Neemo" class="max-h-8 w-auto object-contain" /></div>
       </div>
     </div>
   </section>
